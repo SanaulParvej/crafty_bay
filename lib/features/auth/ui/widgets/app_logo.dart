@@ -1,3 +1,4 @@
+import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 
@@ -13,8 +14,7 @@ class AppLogo extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SvgPicture.asset(
-      'assets/images/logo (1).svg',
+    return SvgPicture.asset(AssetPaths.appLogoSvg,
       width: width ?? 120,
       height: height,
       fit: BoxFit.scaleDown,
