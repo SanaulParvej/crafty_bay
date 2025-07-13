@@ -31,6 +31,12 @@ class AppTheme {
                 letterSpacing: 0.4,
                 fontWeight: FontWeight.w500,
               )),
+        ),
+        appBarTheme: AppBarTheme(
+          titleTextStyle: TextStyle(
+            fontSize: 18,
+            color: Colors.black87,
+          ),
         ));
   }
 
