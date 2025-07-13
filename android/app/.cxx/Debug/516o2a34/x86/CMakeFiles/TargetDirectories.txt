@@ -1,0 +1,2 @@
+/Users/sanaulparvej/crafty_bay/android/app/.cxx/Debug/516o2a34/x86/CMakeFiles/edit_cache.dir
+/Users/sanaulparvej/crafty_bay/android/app/.cxx/Debug/516o2a34/x86/CMakeFiles/rebuild_cache.dir

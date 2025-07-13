@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "525871552948",
+    "project_id": "fir-project-a1eae",
+    "storage_bucket": "fir-project-a1eae.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525871552948:android:995eb764245f83c08b7ae1",
+        "android_client_info": {
+          "package_name": "com.example.crafty_bay"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOY-v_YwrH2dMsnd9pzwPPg_Sd6i52x3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:525871552948:android:19eae50f0b7bae7d8b7ae1",
+        "android_client_info": {
+          "package_name": "com.example.live_score"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCOY-v_YwrH2dMsnd9pzwPPg_Sd6i52x3A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
