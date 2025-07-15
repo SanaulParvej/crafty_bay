@@ -3,6 +3,7 @@ import 'package:crafty_bay/features/auth/ui/controller/main_bottom_nav_controlle
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
+import '../../../common/ui/widgets/product_card.dart';
 import '../widgets/app_bar_icon_button.dart';
 import '../widgets/home_carousel_slider.dart';
 import '../../../common/ui/widgets/product_category_item.dart';
@@ -41,18 +42,57 @@ class _HomeScreenState extends State<HomeScreen> {
                 title: 'Popular',
                 onTapSeeAll: () {},
               ),
+              _getPopularProducts(),
               _buildSectionHeader(
                 title: 'Special',
                 onTapSeeAll: () {},
               ),
+              _getSpecialProducts(),
               _buildSectionHeader(
                 title: 'New ',
                 onTapSeeAll: () {},
               ),
+              _getNewProducts(),
+              SizedBox(
+                height: 8,
+              )
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Widget _getPopularProducts() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+          spacing: 8,
+          children: [1, 2, 3, 4].map((e) => ProductCard()).toList()),
+    );
+  }
+
+  Widget _getSpecialProducts() {
+    return SizedBox(
+      height: 185,
+      child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: 10,
+          itemBuilder: (context, index) {
+            return ProductCard();
+          },
+          separatorBuilder: (context, index) {
+            return SizedBox(width: 8);
+          }),
+    );
+  }
+
+  Widget _getNewProducts() {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: Row(
+          spacing: 8,
+          children: [1, 2, 3, 4].map((e) => ProductCard()).toList()),
     );
   }
 
@@ -94,4 +134,3 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 }
-

@@ -9,7 +9,7 @@ class ProductCategoryItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: (){
+      onTap: () {
         //Something Adding
       },
       child: Column(
@@ -29,10 +29,12 @@ class ProductCategoryItem extends StatelessWidget {
           const SizedBox(
             height: 4,
           ),
-          Text('Computers',
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color: AppColors.themeColor,
-                  ))
+          Text(
+            'Computers',
+            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                  color: AppColors.themeColor,
+                ),
+          )
         ],
       ),
     );
