@@ -60,6 +60,7 @@ class _CartScreenState extends State<CartScreen> {
               child:
                   ElevatedButton(onPressed: () {}, child: Text('Add to cart')))
         ],
+
       ),
     );
   }
