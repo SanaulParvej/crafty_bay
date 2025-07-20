@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 import '../../../../app/app_colors.dart';
 import '../../../../app/constants.dart';
+import '../../../auth/ui/controller/main_bottom_nav_controller.dart';
+import '../widgets/cart_item.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -13,22 +15,41 @@ class CartScreen extends StatefulWidget {
 class _CartScreenState extends State<CartScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(),
-      body: Column(
-        children: [
-          Expanded(child: ListView.builder(
-              itemCount: 5,
-              itemBuilder: (context, index) {
-            return Card();
-          })),
-          _buildPriceAndAddToCartSection(),
-        ],
+    return PopScope(
+      canPop: false,
+      onPopInvokedWithResult: (_, __) {
+        _backToHome();
+      },
+      child: Scaffold(
+        appBar: AppBar(
+          title: Text('Cart'),
+          leading: IconButton(
+            onPressed: _backToHome,
+            icon: Icon(Icons.arrow_back_ios),
+          ),
+        ),
+        body: Column(
+          children: [
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 8),
+                child: ListView.separated(
+                    itemCount: 10,
+                    itemBuilder: (context, index) {
+                      return CardItem();
+                    },
+                  separatorBuilder: (_, __)=> SizedBox(height: 6),
+                    ),
+              ),
+            ),
+            _buildPriceAndCheckoutSection(),
+          ],
+        ),
       ),
     );
   }
 
-  Widget _buildPriceAndAddToCartSection() {
+  Widget _buildPriceAndCheckoutSection() {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -41,9 +62,10 @@ class _CartScreenState extends State<CartScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                'Price',
+                'Total Price',
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
@@ -56,12 +78,18 @@ class _CartScreenState extends State<CartScreen> {
             ],
           ),
           SizedBox(
-              width: 120,
-              child:
-                  ElevatedButton(onPressed: () {}, child: Text('Add to cart')))
+            width: 120,
+            child: ElevatedButton(
+              onPressed: () {},
+              child: Text('Checkout'),
+            ),
+          )
         ],
-
       ),
     );
+  }
+
+  void _backToHome() {
+    Get.find<MainBottomNavController>().backToHome();
   }
 }

@@ -23,7 +23,7 @@ class _ReviewScreenState extends State<ReviewScreen> {
           Expanded(
             child: ListView.builder(
               padding: const EdgeInsets.all(16.0),
-              itemCount: 4,
+              itemCount: 6,
               itemBuilder: (context, index) {
                 return const UserReviewCard();
               },

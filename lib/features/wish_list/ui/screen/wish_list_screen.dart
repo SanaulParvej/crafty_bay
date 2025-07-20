@@ -22,7 +22,9 @@ class _WishListScreenState extends State<WishListScreen> {
         appBar: AppBar(
           title: Text('Wishlist'),
           leading: IconButton(
-              onPressed: _backToHome, icon: Icon(Icons.arrow_back_ios)),
+            onPressed: _backToHome,
+            icon: Icon(Icons.arrow_back_ios),
+          ),
         ),
         body: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 8),
