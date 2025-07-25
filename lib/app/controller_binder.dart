@@ -1,5 +1,6 @@
 import 'package:crafty_bay/core/services/network/network_client.dart';
 import 'package:crafty_bay/features/auth/ui/controller/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/features/auth/ui/controller/sign_up_controller.dart';
 import 'package:get/get.dart';
 
 class ControllerBinder extends Bindings {
@@ -10,6 +11,7 @@ class ControllerBinder extends Bindings {
       NetworkClient(
           onUnAuthorize: _onUnAuthorize, commonHeaders: _commonHeaders),
     );
+    Get.put(SignUpController());
   }
 
   void _onUnAuthorize() {

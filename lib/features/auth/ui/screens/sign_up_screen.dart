@@ -1,6 +1,12 @@
+import 'package:crafty_bay/core/ui/widget/snack_bar_message.dart';
+import 'package:crafty_bay/features/auth/data/models/sign_up_request_model.dart';
+import 'package:crafty_bay/features/auth/ui/controller/sign_up_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../../../../core/ui/widget/centered_circular_progress_indicator.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -20,6 +26,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _addressTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final SignUpController _signUpController = Get.find<SignUpController>();
 
   @override
   Widget build(BuildContext context) {
@@ -142,10 +149,16 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     },
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapLoginButton,
-                    child: Text('Sign Up'),
-                  ),
+                  GetBuilder<SignUpController>(builder: (_) {
+                    return Visibility(
+                      visible: _signUpController.inProgress == false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: _onTapSignButton,
+                        child: Text('Sign Up'),
+                      ),
+                    );
+                  }),
                   SizedBox(height: 32),
                 ],
               ),
@@ -156,7 +169,35 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  void _onTapLoginButton() {
-    if (_formKey.currentState!.validate()) {}
+  Future<void> _onTapSignButton() async {
+    if (_formKey.currentState!.validate()) {
+      final SignUpRequestModel model = SignUpRequestModel(
+          email: _emailTEController.text.trim(),
+          firstName: _firstNameTEController.text.trim(),
+          lastName: _lastNameTEController.text.trim(),
+          password: _passwordTEController.text,
+          phone: _mobileTEController.text.trim(),
+          city: _cityTEController.text.trim());
+      final bool isSuccess = await _signUpController.signUp(model);
+      if (isSuccess) {
+        // add navigate to0 verify otp
+
+        showSnackBarMessage(context, _signUpController.message!);
+      } else {
+        showSnackBarMessage(context, _signUpController.errorMessage!, true);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    _firstNameTEController.dispose();
+    _lastNameTEController.dispose();
+    _mobileTEController.dispose();
+    _passwordTEController.dispose();
+    _cityTEController.dispose();
+    _addressTEController.dispose();
+    super.dispose();
   }
 }
