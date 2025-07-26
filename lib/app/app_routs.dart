@@ -1,5 +1,6 @@
 import 'package:crafty_bay/features/auth/ui/screens/login_screen.dart';
 import 'package:crafty_bay/features/auth/ui/screens/sign_up_screen.dart';
+import 'package:crafty_bay/features/auth/ui/screens/verify_otp_screen.dart';
 import 'package:crafty_bay/features/common/ui/screens/main_bottom_nav_screen.dart';
 import 'package:crafty_bay/features/product/ui/screens/create_review.dart';
 import 'package:crafty_bay/features/product/ui/screens/product_details_screen.dart';
@@ -30,6 +31,9 @@ class AppRouts {
       screenWidget = ReviewScreen();
     } else if (settings.name == CreateReview.name) {
       screenWidget = CreateReview();
+    } else if (settings.name == VerifyOtpScreen.name) {
+      final String email = settings.arguments as String;
+      screenWidget = VerifyOtpScreen(email: email);
     }
 
     return MaterialPageRoute(builder: (context) => screenWidget);
