@@ -1,4 +1,5 @@
 import 'package:crafty_bay/core/services/network/network_client.dart';
+import 'package:crafty_bay/features/auth/ui/controller/login_controller.dart';
 import 'package:crafty_bay/features/auth/ui/controller/main_bottom_nav_controller.dart';
 import 'package:crafty_bay/features/auth/ui/controller/sign_up_controller.dart';
 import 'package:crafty_bay/features/auth/ui/controller/verify_otp_controller.dart';
@@ -19,6 +20,7 @@ class ControllerBinder extends Bindings {
     );
     Get.put(SignUpController());
     Get.put(VerifyOtpController());
+    Get.put(LoginController());
   }
 
   Future<void> _onUnAuthorize() async {

@@ -1,7 +1,13 @@
-import 'package:crafty_bay/features/auth/ui/screens/sign_up_screen.dart';
+import 'package:crafty_bay/core/ui/widget/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/auth/data/models/login_request_model.dart';
+import 'package:crafty_bay/features/auth/ui/controller/login_controller.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import '../../../../core/ui/widget/snack_bar_message.dart';
+import '../../../common/ui/screens/main_bottom_nav_screen.dart';
+
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -16,6 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailTEController = TextEditingController();
   final TextEditingController _passwordTEController = TextEditingController();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final LoginController _loginController = Get.find<LoginController>();
 
   @override
   Widget build(BuildContext context) {
@@ -78,10 +85,16 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   SizedBox(height: 16),
-                  ElevatedButton(
-                    onPressed: _onTapLoginButton,
-                    child: Text('Login'),
-                  )
+                  GetBuilder<LoginController>(builder: (controller) {
+                    return Visibility(
+                      visible: controller.inProgress == false,
+                      replacement: CenteredCircularProgressIndicator(),
+                      child: ElevatedButton(
+                        onPressed: _onTapLoginButton,
+                        child: Text('Login'),
+                      ),
+                    );
+                  })
                 ],
               ),
             ),
@@ -91,8 +104,25 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _onTapLoginButton() {
-    Navigator.pushNamed(context, SignUpScreen.name);
-    //if (_formKey.currentState!.validate()) {}
+  Future<void> _onTapLoginButton() async {
+    if (_formKey.currentState!.validate()) {
+      LoginRequestModel model = LoginRequestModel(
+          email: _emailTEController.text.trim(),
+          password: _passwordTEController.text);
+      final bool isSuccess = await _loginController.login(model);
+      if (isSuccess) {
+        Navigator.pushNamedAndRemoveUntil(
+            context, MainBottomNavScreen.name, (predicate) => false);
+      } else {
+        showSnackBarMessage(context, _loginController.errorMessage!, true);
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _emailTEController.dispose();
+    _passwordTEController.dispose();
+    super.dispose();
   }
 }
