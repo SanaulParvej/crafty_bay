@@ -12,7 +12,7 @@ class SliderModel {
 
   factory SliderModel.fromJson(Map<String, dynamic> jsonData) {
     return SliderModel(
-      id: jsonData['id'] ?? '',
+      id: jsonData['_id'],
       photoUrl: jsonData['photo_url'],
       description: jsonData['description'],
       brandId: jsonData['brand'],
