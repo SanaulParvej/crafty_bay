@@ -1,6 +1,7 @@
 import 'package:crafty_bay/app/asset_paths.dart';
 import 'package:crafty_bay/core/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/auth/ui/controller/main_bottom_nav_controller.dart';
+import 'package:crafty_bay/features/common/controllers/category_list_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/home_slider_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -131,16 +132,23 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _getCategoryList() {
     return SizedBox(
       height: 100,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        itemCount: 10,
-        itemBuilder: (context, index) {
-          return ProductCategoryItem();
-        },
-        separatorBuilder: (context, index) => const SizedBox(
-          width: 8,
-        ),
-      ),
+      child: GetBuilder<CategoryListController>(builder: (controller) {
+        if (controller.initialLoadingInProgress) {
+          return CenteredCircularProgressIndicator();
+        }
+        return ListView.separated(
+          scrollDirection: Axis.horizontal,
+          itemCount: controller.homeCategoryListItemLength,
+          itemBuilder: (context, index) {
+            return ProductCategoryItem(
+              categoryModel: controller.categoryModelList[index],
+            );
+          },
+          separatorBuilder: (context, index) => const SizedBox(
+            width: 8,
+          ),
+        );
+      }),
     );
   }
 }

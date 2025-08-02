@@ -56,7 +56,7 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: GridView.builder(
-                    controller: _scrollController,
+                      controller: _scrollController,
                       itemCount: controller.categoryModelList.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount: 4,
@@ -64,7 +64,10 @@ class _ProductCategoryScreenState extends State<ProductCategoryScreen> {
                         crossAxisSpacing: 2,
                       ),
                       itemBuilder: (context, index) {
-                        return FittedBox(child: ProductCategoryItem());
+                        return FittedBox(
+                            child: ProductCategoryItem(
+                          categoryModel: controller.categoryModelList[index],
+                        ));
                       }),
                 ),
               ),
