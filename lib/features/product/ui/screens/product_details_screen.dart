@@ -1,10 +1,13 @@
 import 'package:crafty_bay/app/app_colors.dart';
+import 'package:crafty_bay/core/ui/widget/centered_circular_progress_indicator.dart';
+import 'package:crafty_bay/features/product/controllers/product_details_controller.dart';
+import 'package:crafty_bay/features/product/data/models/product_details_model.dart';
 import 'package:crafty_bay/features/product/ui/screens/review_screen.dart';
 import 'package:crafty_bay/features/product/ui/widgets/color_picker.dart';
 import 'package:crafty_bay/features/product/ui/widgets/inc_dec_button.dart';
 import 'package:crafty_bay/features/product/ui/widgets/product_image_slider.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get_state_manager/src/simple/get_state.dart';
 import '../../../../app/constants.dart';
 import '../widgets/size_picker.dart';
 
@@ -20,141 +23,172 @@ class ProductDetailsScreen extends StatefulWidget {
 }
 
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  final ProductDetailsController _productDetailsController =
+      ProductDetailsController();
+
+  @override
+  void initState() {
+    super.initState();
+    _productDetailsController.getProductDetails(widget.productId);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text('Product Details'),
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  ProductImageSlider(),
-                  Padding(
-                    padding: const EdgeInsets.all(16),
+      body: GetBuilder(
+          init: _productDetailsController,
+          builder: (_) {
+            if (_productDetailsController.inProgress) {
+              return CenteredCircularProgressIndicator();
+            }
+            if (_productDetailsController.errorMessage != null) {
+              return Center(
+                child: Text(_productDetailsController.errorMessage!),
+              );
+            }
+
+            final ProductDetailsModel product =
+                _productDetailsController.productDetails;
+
+            return Column(
+              children: [
+                Expanded(
+                  child: SingleChildScrollView(
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Expanded(
-                              child: Text(
-                                'Nike 1204HST - new shoe of 2025',
+                        ProductImageSlider(images: product.photoUrls),
+                        Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  Expanded(
+                                    child: Text(
+                                      product.title,
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.w600,
+                                        letterSpacing: 0.6,
+                                        color: Colors.black54,
+                                      ),
+                                    ),
+                                  ),
+                                  IncDecButton(
+                                    onChange: (int value) {},
+                                  ),
+                                ],
+                              ),
+                              Row(
+                                children: [
+                                  Wrap(
+                                    children: [
+                                      Icon(
+                                        Icons.star,
+                                        size: 18,
+                                        color: Colors.amber,
+                                      ),
+                                      Text(
+                                        '4.5',
+                                        style: TextStyle(color: Colors.grey),
+                                      )
+                                    ],
+                                  ),
+                                  TextButton(
+                                    onPressed: () {
+                                      Navigator.pushNamed(
+                                          context, ReviewScreen.name);
+                                    },
+                                    child: Text('Review'),
+                                  ),
+                                  Card(
+                                    color: AppColors.themeColor,
+                                    shape: RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.circular(2)),
+                                    child: Padding(
+                                      padding: const EdgeInsets.all(2),
+                                      child: Icon(
+                                        Icons.favorite_outline_rounded,
+                                        size: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Visibility(
+                                visible: product.colors.isNotEmpty,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Color',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    ColorPicker(
+                                      colors: product.colors,
+                                      onSelected: (String value) {},
+                                    ),
+                                    SizedBox(height: 16),
+                                  ],
+                                ),
+                              ),
+                              Visibility(
+                                visible: product.sizes.isNotEmpty,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      'Size',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                    SizePicker(
+                                      sizes: product.sizes,
+                                      onSelected: (String value) {},
+                                    ),
+                                    SizedBox(height: 16),
+                                  ],
+                                ),
+                              ),
+                              Text(
+                                'Description',
                                 style: TextStyle(
-                                  fontSize: 18,
+                                  fontSize: 16,
                                   fontWeight: FontWeight.w600,
-                                  letterSpacing: 0.6,
-                                  color: Colors.black54,
                                 ),
                               ),
-                            ),
-                            IncDecButton(
-                              onChange: (int value) {},
-                            ),
-                          ],
-                        ),
-                        Row(
-                          children: [
-                            Wrap(
-                              children: [
-                                Icon(
-                                  Icons.star,
-                                  size: 18,
-                                  color: Colors.amber,
-                                ),
-                                Text(
-                                  '4.5',
-                                  style: TextStyle(color: Colors.grey),
-                                )
-                              ],
-                            ),
-                            TextButton(
-                              onPressed: () {
-                                Navigator.pushNamed(context, ReviewScreen.name);
-                              },
-                              child: Text('Review'),
-                            ),
-                            Card(
-                              color: AppColors.themeColor,
-                              shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(2)),
-                              child: Padding(
-                                padding: const EdgeInsets.all(2),
-                                child: Icon(
-                                  Icons.favorite_outline_rounded,
-                                  size: 18,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          'Color',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
+                              SizedBox(height: 8),
+                              Text(
+                                product.description,
+                                style: TextStyle(color: Colors.grey),
+                              )
+                            ],
                           ),
                         ),
-                        SizedBox(height: 8),
-                        ColorPicker(
-                          colors: [
-                            'Black',
-                            'Red',
-                            'Blue',
-                            'white',
-                          ],
-                          onSelected: (String value) {},
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'Size',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        SizePicker(
-                          sizes: [
-                            'S',
-                            'M',
-                            'L',
-                            'XL',
-                            'XXL',
-                          ],
-                          onSelected: (String value) {},
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          'Description',
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Text(
-                          '''Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book.''',
-                          style: TextStyle(color: Colors.grey),
-                        )
                       ],
                     ),
                   ),
-                ],
-              ),
-            ),
-          ),
-          _buildPriceAndAddToCartSection()
-        ],
-      ),
+                ),
+                _buildPriceAndAddToCartSection(product)
+              ],
+            );
+          }),
     );
   }
 
-  Widget _buildPriceAndAddToCartSection() {
+  Widget _buildPriceAndAddToCartSection(ProductDetailsModel product) {
     return Container(
       padding: EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -173,7 +207,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                 style: Theme.of(context).textTheme.bodyLarge,
               ),
               Text(
-                '${Constants.takaSign}100',
+                '${Constants.takaSign}${product.currentPrice}',
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.w700,
