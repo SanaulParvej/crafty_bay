@@ -9,6 +9,7 @@ import 'package:crafty_bay/features/common/controllers/category_list_controller.
 import 'package:crafty_bay/features/home/ui/controllers/home_slider_controller.dart';
 import 'package:crafty_bay/features/home/ui/controllers/popular_product_list_controller.dart';
 import 'package:get/get.dart';
+import '../features/product/controllers/add_to_cart_controller.dart';
 
 class ControllerBinder extends Bindings {
   @override
@@ -27,6 +28,7 @@ class ControllerBinder extends Bindings {
     Get.put(HomeSliderController());
     Get.put(CategoryListController());
     Get.put(PopularProductController());
+    Get.put(AddToCartController());
   }
 
   Future<void> _onUnAuthorize() async {
