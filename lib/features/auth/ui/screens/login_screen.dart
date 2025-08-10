@@ -1,13 +1,13 @@
 import 'package:crafty_bay/core/ui/widget/centered_circular_progress_indicator.dart';
 import 'package:crafty_bay/features/auth/data/models/login_request_model.dart';
 import 'package:crafty_bay/features/auth/ui/controller/login_controller.dart';
+import 'package:crafty_bay/features/auth/ui/screens/sign_up_screen.dart';
 import 'package:crafty_bay/features/auth/ui/widgets/app_logo.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../../core/ui/widget/snack_bar_message.dart';
 import '../../../common/ui/screens/main_bottom_nav_screen.dart';
-
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -85,16 +85,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     },
                   ),
                   SizedBox(height: 16),
-                  GetBuilder<LoginController>(builder: (controller) {
-                    return Visibility(
-                      visible: controller.inProgress == false,
-                      replacement: CenteredCircularProgressIndicator(),
-                      child: ElevatedButton(
-                        onPressed: _onTapLoginButton,
-                        child: Text('Login'),
-                      ),
-                    );
-                  })
+                  GetBuilder<LoginController>(
+                    builder: (controller) {
+                      return Visibility(
+                        visible: controller.inProgress == false,
+                        replacement: CenteredCircularProgressIndicator(),
+                        child: ElevatedButton(
+                          onPressed: _onTapLoginButton,
+                          child: Text('Login'),
+                        ),
+                      );
+                    },
+                  ),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Don't have an account?"),
+                      TextButton(
+                          onPressed: _onTapSignUpButton,
+                          child: Text('Sign Up')),
+                    ],
+                  )
                 ],
               ),
             ),
@@ -102,6 +114,10 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+
+  void _onTapSignUpButton() {
+    Navigator.pushNamed(context, SignUpScreen.name);
   }
 
   Future<void> _onTapLoginButton() async {

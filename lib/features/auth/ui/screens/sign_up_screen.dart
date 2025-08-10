@@ -160,6 +160,15 @@ class _SignUpScreenState extends State<SignUpScreen> {
                       ),
                     );
                   }),
+                  SizedBox(height: 16),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text("Already have an account?"),
+                      TextButton(
+                          onPressed: _onTapLoginButton, child: Text('Login')),
+                    ],
+                  ),
                   SizedBox(height: 32),
                 ],
               ),
@@ -168,6 +177,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  void _onTapLoginButton() {
+    Navigator.pop(context);
   }
 
   Future<void> _onTapSignButton() async {
@@ -182,7 +195,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
       final bool isSuccess = await _signUpController.signUp(model);
       if (isSuccess) {
         showSnackBarMessage(context, _signUpController.message!);
-        Navigator.pushNamed(context, VerifyOtpScreen.name,arguments: _emailTEController.text.trim());
+        Navigator.pushNamed(context, VerifyOtpScreen.name,
+            arguments: _emailTEController.text.trim());
       } else {
         showSnackBarMessage(context, _signUpController.errorMessage!, true);
       }

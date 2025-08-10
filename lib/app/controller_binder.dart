@@ -19,7 +19,9 @@ class ControllerBinder extends Bindings {
     Get.put(
       NetworkClient(
         onUnAuthorize: _onUnAuthorize,
-        commonHeaders: _commonHeaders,
+        commonHeaders: (){
+          return _commonHeaders();
+        },
       ),
     );
     Get.put(SignUpController());
@@ -36,7 +38,7 @@ class ControllerBinder extends Bindings {
     Get.to(() => LoginScreen());
   }
 
-  Map<String, String> get _commonHeaders {
+  Map<String, String>  _commonHeaders() {
     return {
       'content-type': 'application/json',
       'token': Get.find<AuthController>().accessToken ?? '',

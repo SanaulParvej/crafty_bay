@@ -6,7 +6,6 @@ import '../widgets/app_logo.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
   static final String name = '/';
 
   @override

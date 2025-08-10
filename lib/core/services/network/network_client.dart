@@ -8,7 +8,7 @@ class NetworkClient {
   final Logger _logger = Logger();
   final String _defaultErrorMessage = 'Something went wrong';
   final VoidCallback onUnAuthorize;
-  final Map<String, String> commonHeaders;
+  final Map<String, String> Function() commonHeaders;
 
   NetworkClient({required this.onUnAuthorize, required this.commonHeaders});
 
@@ -16,8 +16,8 @@ class NetworkClient {
     try {
       Uri uri = Uri.parse(url);
 
-      _logRequest(url, headers: commonHeaders); //log request
-      final Response response = await get(uri, headers: commonHeaders);
+      _logRequest(url, headers: commonHeaders()); //log request
+      final Response response = await get(uri, headers: commonHeaders());
       _logResponse(response); //log response
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
@@ -49,9 +49,9 @@ class NetworkClient {
     try {
       Uri uri = Uri.parse(url);
 
-      _logRequest(url, headers: commonHeaders); //log request
+      _logRequest(url, headers: commonHeaders()); //log request
       final Response response =
-          await post(uri, headers: commonHeaders, body: jsonEncode(body));
+          await post(uri, headers: commonHeaders(), body: jsonEncode(body));
       _logResponse(response); //log response
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
@@ -83,9 +83,9 @@ class NetworkClient {
     try {
       Uri uri = Uri.parse(url);
 
-      _logRequest(url, headers: commonHeaders); //log request
+      _logRequest(url, headers: commonHeaders()); //log request
       final Response response =
-          await put(uri, headers: commonHeaders, body: jsonEncode(body));
+          await put(uri, headers: commonHeaders(), body: jsonEncode(body));
       _logResponse(response); //log response
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
@@ -117,9 +117,9 @@ class NetworkClient {
     try {
       Uri uri = Uri.parse(url);
 
-      _logRequest(url, headers: commonHeaders); //log request
+      _logRequest(url, headers: commonHeaders()); //log request
       final Response response =
-          await patch(uri, headers: commonHeaders, body: jsonEncode(body));
+          await patch(uri, headers: commonHeaders(), body: jsonEncode(body));
       _logResponse(response); //log response
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
@@ -151,9 +151,9 @@ class NetworkClient {
     try {
       Uri uri = Uri.parse(url);
 
-      _logRequest(url, headers: commonHeaders); //log request
+      _logRequest(url, headers: commonHeaders()); //log request
       final Response response =
-          await delete(uri, headers: commonHeaders, body: jsonEncode(body));
+          await delete(uri, headers: commonHeaders(), body: jsonEncode(body));
       _logResponse(response); //log response
       if (response.statusCode == 200 || response.statusCode == 201) {
         final responseBody = jsonDecode(response.body);
