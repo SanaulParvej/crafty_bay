@@ -119,10 +119,10 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ## 👤 Author
 
-**Sanaul Md. Parvez**
+**Sanaul Md. Perves**
 
 - GitHub: [@sanaulparvej](https://github.com/sanaulparvej)
-- LinkedIn: [Sanaul Md. Parvez](https://linkedin.com/in/sanaul-parvej)
+- LinkedIn: [Sanaul Parvej](https://linkedin.com/in/sanaul-parvej)
 
 ## 🙏 Acknowledgments
 
