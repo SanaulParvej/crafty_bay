@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../../../app/urls.dart';
 import '../../../../core/services/network/network_client.dart';
 
-class PopularProductController extends GetxController {
+class SpecialProductController extends GetxController {
   bool _inProgress = false;
   String? _errorMessage;
 
@@ -13,22 +13,22 @@ class PopularProductController extends GetxController {
   List<ProductModel> _productModelList = [];
   List<ProductModel> get productModelList => _productModelList;
 
-  Future<bool> getPopularProducts() async {
+  Future<bool> getSpecialProducts() async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    print('Fetching popular products...');
+    print('Fetching special products...');
 
-    // Use category ID for "Popular" instead of tag
-    final String popularCategoryId = '67c35af85e8a445235de197b';
+    // Use category ID for "Special" instead of tag
+    final String specialCategoryId = '67c35b395e8a445235de197e';
     print(
-        'Popular products URL: ${Urls.productListByCategoryUrl(10, 1, popularCategoryId)}');
+        'Special products URL: ${Urls.productListByCategoryUrl(10, 1, specialCategoryId)}');
     final NetworkResponse response = await Get.find<NetworkClient>()
-        .getRequest(Urls.productListByCategoryUrl(10, 1, popularCategoryId));
+        .getRequest(Urls.productListByCategoryUrl(10, 1, specialCategoryId));
 
-    print('Popular products response received. Success: ${response.isSuccess}');
+    print('Special products response received. Success: ${response.isSuccess}');
     if (response.isSuccess) {
-      print('Popular Products Response Data: ${response.responseData}');
+      print('Special Products Response Data: ${response.responseData}');
 
       if (response.responseData != null &&
           response.responseData!['data'] != null) {
@@ -81,7 +81,7 @@ class PopularProductController extends GetxController {
     }
     _inProgress = false;
     print(
-        'Popular products fetch completed. Success: $isSuccess, Product count: ${_productModelList.length}');
+        'Special products fetch completed. Success: $isSuccess, Product count: ${_productModelList.length}');
     update();
 
     return isSuccess;

@@ -8,20 +8,25 @@ import 'firebase_options.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  print('Initializing Firebase...');
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  print('Firebase initialized successfully');
 
   //Framework Error
   FlutterError.onError = (errorDetails) {
+    print('Flutter Error: $errorDetails');
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };
 
   //Framework async Error
   PlatformDispatcher.instance.onError = (error, stack) {
+    print('Async Error: $error');
     FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
     return true;
   };
+  print('Running CraftyBay app...');
   runApp(CraftyBay());
 }

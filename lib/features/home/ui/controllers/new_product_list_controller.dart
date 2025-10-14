@@ -3,7 +3,7 @@ import 'package:get/get.dart';
 import '../../../../app/urls.dart';
 import '../../../../core/services/network/network_client.dart';
 
-class PopularProductController extends GetxController {
+class NewProductController extends GetxController {
   bool _inProgress = false;
   String? _errorMessage;
 
@@ -13,22 +13,22 @@ class PopularProductController extends GetxController {
   List<ProductModel> _productModelList = [];
   List<ProductModel> get productModelList => _productModelList;
 
-  Future<bool> getPopularProducts() async {
+  Future<bool> getNewProducts() async {
     bool isSuccess = false;
     _inProgress = true;
     update();
-    print('Fetching popular products...');
+    print('Fetching new products...');
 
-    // Use category ID for "Popular" instead of tag
-    final String popularCategoryId = '67c35af85e8a445235de197b';
+    // Use category ID for "New Arrival" instead of tag
+    final String newArrivalCategoryId = '67c7bec4623a876bc4766fea';
     print(
-        'Popular products URL: ${Urls.productListByCategoryUrl(10, 1, popularCategoryId)}');
+        'New products URL: ${Urls.productListByCategoryUrl(10, 1, newArrivalCategoryId)}');
     final NetworkResponse response = await Get.find<NetworkClient>()
-        .getRequest(Urls.productListByCategoryUrl(10, 1, popularCategoryId));
+        .getRequest(Urls.productListByCategoryUrl(10, 1, newArrivalCategoryId));
 
-    print('Popular products response received. Success: ${response.isSuccess}');
+    print('New products response received. Success: ${response.isSuccess}');
     if (response.isSuccess) {
-      print('Popular Products Response Data: ${response.responseData}');
+      print('New Products Response Data: ${response.responseData}');
 
       if (response.responseData != null &&
           response.responseData!['data'] != null) {
@@ -81,7 +81,7 @@ class PopularProductController extends GetxController {
     }
     _inProgress = false;
     print(
-        'Popular products fetch completed. Success: $isSuccess, Product count: ${_productModelList.length}');
+        'New products fetch completed. Success: $isSuccess, Product count: ${_productModelList.length}');
     update();
 
     return isSuccess;

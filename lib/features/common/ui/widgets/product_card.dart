@@ -43,10 +43,25 @@ class ProductCard extends StatelessWidget {
                 ),
               ),
               padding: EdgeInsets.all(16),
-              child: Image.network(
-                productModel.photoUrls.first,
-                height: 80,
-              ),
+              child: productModel.photoUrls.isNotEmpty
+                  ? Image.network(
+                      productModel.photoUrls.first,
+                      height: 80,
+                      fit: BoxFit.cover,
+                      errorBuilder: (context, error, stackTrace) {
+                        // Fallback widget if image fails to load
+                        return Icon(
+                          Icons.image_not_supported,
+                          size: 40,
+                          color: Colors.grey,
+                        );
+                      },
+                    )
+                  : Icon(
+                      Icons.image_not_supported,
+                      size: 40,
+                      color: Colors.grey,
+                    ),
             ),
             Padding(
               padding: const EdgeInsets.all(8.0),

@@ -15,30 +15,40 @@ class NetworkClient {
   Future<NetworkResponse> getRequest(String url) async {
     try {
       Uri uri = Uri.parse(url);
+      print('Making GET request to: $url');
 
       _logRequest(url, headers: commonHeaders()); //log request
       final Response response = await get(uri, headers: commonHeaders());
+      print(
+          'Received response from: $url, Status: ${response.statusCode}, Body length: ${response.body.length}');
       _logResponse(response); //log response
+
       if (response.statusCode == 200 || response.statusCode == 201) {
+        print('Parsing JSON response from: $url');
         final responseBody = jsonDecode(response.body);
+        print('Successfully parsed JSON response from: $url');
         return NetworkResponse(
             isSuccess: true,
             statusCode: response.statusCode,
             responseData: responseBody);
       } else if (response.statusCode == 401) {
+        print('Unauthorized response (401) from: $url');
         onUnAuthorize();
         return NetworkResponse(
             isSuccess: false,
             statusCode: response.statusCode,
             errorMessage: 'Un-authorize');
       } else {
+        print('Error response (${response.statusCode}) from: $url');
         final responseBody = jsonDecode(response.body);
         return NetworkResponse(
             isSuccess: false,
             statusCode: response.statusCode,
             errorMessage: responseBody['msg'] ?? _defaultErrorMessage);
       }
-    } on Exception catch (e) {
+    } on Exception catch (e, stackTrace) {
+      print('Exception during GET request to: $url, Error: $e');
+      print('Stack trace: $stackTrace');
       return NetworkResponse(
           isSuccess: false, statusCode: -1, errorMessage: e.toString());
     }
@@ -195,7 +205,7 @@ class NetworkClient {
     URL -> ${response.request?.url}
     STATUS CODE -> ${response.statusCode}
     HEADERS -> ${response.request?.headers}
-    BODY -> ${response.body}
+    BODY -> ${response.body.substring(0, response.body.length > 1000 ? 1000 : response.body.length)}${response.body.length > 1000 ? '...' : ''}
     ''';
     _logger.i(message);
   }
